@@ -93,6 +93,7 @@ $(".sidebar").append($uCatList);
 
 $(function(){
 
+  //Creates Cat objects for storing img Source and cat names
   var Cats = function(name, src){
     this.imgSrc = src;
     this.clicked = 0;
@@ -104,7 +105,7 @@ $(function(){
     this.clicked += 1;
   };
 
-
+  //List of urls of Cat images to be used
   // var cats = ["http://placekitten.com/g/600/350",
   // "http://placekitten.com/g/600/360",
   // "http://placekitten.com/g/600/400",
@@ -123,14 +124,14 @@ $(function(){
 
 //  $("body").append("Hello");
 
-  var testCat = new Cats("Marie", "http://marieclaire.media.ipcdigital.co.uk/11116/000090fb9/2b75_orh1000w646/cat-landscape-4.jpg");
+  //var testCat = new Cats("Marie", "http://marieclaire.media.ipcdigital.co.uk/11116/000090fb9/2b75_orh1000w646/cat-landscape-4.jpg");
 
   //localStorage.setItem('myCat', JSON.stringify(testCat));
   //var hello = JSON.parse(localStorage.getItem('myCat'));
   //console.log(hello)
   //$("body").append(hello);
 
-  var catList = [];
+  var catList = []; //List of CatNames also the serves as the ID of the cats could change to a real id
   var model = {
     init: function(){
       //$("body").append("HelloFrom Model");
@@ -161,6 +162,10 @@ $(function(){
     getCat: function(catName){
       var cat = JSON.parse(localStorage.getItem(catName));
       return cat;
+    },
+
+    setCat: function(cat){
+      localStorage.setItem(cat.name, JSON.stringify(cat));
     }
 
 
@@ -189,9 +194,9 @@ $(function(){
     },
 
     updateClicked: function(catName){
-      var sCat = JSON.parse(localStorage.getItem(catName));
+      var sCat = model.getCat(catName);
       sCat.clicked += 1;
-      localStorage.setItem(catName, JSON.stringify(sCat));
+      model.setCat(sCat);
       return sCat.clicked;
     }
 
