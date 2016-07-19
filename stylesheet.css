@@ -12,6 +12,19 @@ body{
     margin:auto;
 }
 
+.adminContainer{
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: flex;
+  flex-wrap: wrap;
+  width:80%;
+  margin:auto;
+  border: 2px solid gainsboro;
+}
+
 .catButtons{
     background-color: steelblue;
     border: none;

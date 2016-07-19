@@ -177,9 +177,10 @@ $(function(){
     init: function(){
       //$("body").append("Hello from Octo");
       //set up the list of cats call view.init(listofcats) which will set it up
-      view.init();
-      var catList = JSON.parse(localStorage.getItem("catList"));
-      console.log(catList);
+
+      var catList = model.    getCat("catList");
+      view.init(catList);
+      //console.log(catList);
       catList.forEach(function(catName){
         view.makeButton(catName);
       });
@@ -207,9 +208,9 @@ $(function(){
   };
 
   var view = {
-    init: function(){
+    init: function(catList){
       //$("body").append("Hello from View");
-
+      octo.drawCat(catList[0]);
     },
 
     makeButton: function(catName){
