@@ -94,9 +94,9 @@ $(".sidebar").append($uCatList);
 $(function(){
 
   //Creates Cat objects for storing img Source and cat names
-  var Cats = function(name, src){
+  var Cats = function(name, src, clicked=0){
     this.imgSrc = src;
-    this.clicked = 0;
+    this.clicked = clicked;
     this.name = name;
     this.selected=0;
   };
@@ -125,7 +125,7 @@ $(function(){
 //  $("body").append("Hello");
 
   //var testCat = new Cats("Marie", "http://marieclaire.media.ipcdigital.co.uk/11116/000090fb9/2b75_orh1000w646/cat-landscape-4.jpg");
-
+  //var testSquirtle = new Cats("Squirtle", "http://static.giantbomb.com/uploads/original/10/103251/1638347-squirtle__s_swim_by_midnight_dark_angel.jpg");
   //localStorage.setItem('myCat', JSON.stringify(testCat));
   //var hello = JSON.parse(localStorage.getItem('myCat'));
   //console.log(hello)
@@ -138,7 +138,8 @@ $(function(){
 
       for (item in cats){
         var cat = new Cats("Kitty"+item, cats[item]);
-        localStorage.setItem('Kitty'+item, JSON.stringify(cat));
+        this.setCat(cat)
+        //localStorage.setItem('Kitty'+item, JSON.stringify(cat));
         catList.push("Kitty"+item);
       }
       localStorage.setItem("catList", JSON.stringify(catList));
@@ -182,7 +183,8 @@ $(function(){
       view.init(catList);
       //console.log(catList);
       catList.forEach(function(catName){
-        view.makeButton(catName);
+        var catButton = view.makeButton(catName);
+        view.appendButton(catButton);
       });
     },
 
@@ -196,11 +198,33 @@ $(function(){
 
     updateClicked: function(catName){
       var sCat = model.getCat(catName);
-      sCat.clicked += 1;
+      sCat.clicked = parseInt(sCat.clicked) +1;
       model.setCat(sCat);
       return sCat.clicked;
-    }
+    },
 
+    adminSave: function(event){
+      console.log(event);
+      console.log(event.currentTarget["cat_name"].value);
+      console.log(event.currentTarget);
+      var newCat = event.currentTarget;
+      var saveCat = new Cats(newCat["cat_name"].value, newCat["img_url"].value, newCat["num_clicks"].value);
+      console.log(saveCat);
+      model.setCat(saveCat);
+      var newButton = view.makeButton(saveCat.name);
+      console.log(newButton);
+      view.replaceButton(newButton);
+      $(".cuteC").remove();
+      view.makeCat(saveCat);
+    },
+
+    showAdmin: function(){
+      $(".adminContainer").show();
+    },
+
+    closeAdmin: function(){
+      $(".adminContainer").hide();
+    }
 
 
 
@@ -211,6 +235,28 @@ $(function(){
     init: function(catList){
       //$("body").append("Hello from View");
       octo.drawCat(catList[0]);
+      var $button = $("<button/>",
+        {
+          type:"button",
+          id:"adminButton",
+          class:"adminButtons",
+          text: "Admin",
+          click: function() {
+            octo.showAdmin();
+        }
+      });
+      $(".bottombar").append($button);
+
+      $("#cancelButt").click(function(){
+        octo.closeAdmin();
+      });
+
+      $( "form" ).submit(function( event ) {
+        //alert( "Handler for .submit() called." );
+        octo.adminSave(event);
+        event.preventDefault();
+      });
+
     },
 
     makeButton: function(catName){
@@ -226,7 +272,18 @@ $(function(){
           octo.drawCat(catName);
         }
       });
-      $(".sidebar").append($button);
+
+      return $button;
+      //$(".sidebar").append($button);
+    },
+
+    appendButton: function(catButton){
+      $(".sidebar").append(catButton);
+    },
+
+    replaceButton: function(rButton){
+      var currentCat = $(".title").text();
+      $("#"+currentCat+"Button").replaceWith(rButton);
     },
 
     makeCat: function(cat){

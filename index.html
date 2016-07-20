@@ -8,7 +8,7 @@
 
   <body>
     <div class="heading">
-    <h1>Cat Clicker!</h1>
+    	<h1>Cat Clicker!</h1>
     </div>
     <div class="fullContainer">
 
@@ -18,8 +18,28 @@
 
       </div>
     </div>
+		<div class="bottombar">
+		</div>
 		<div class="adminContainer">
+			<form>
+		    <div>
+	        <label for="name">Name:</label>
+	        <input type="text" id="name" name="cat_name" />
+		    </div>
+		    <div>
+	        <label for="imgURL">ImgURL:</label>
+	        <input type="url" id="imgURL" name="img_url" />
+		    </div>
+		    <div>
+	        <label for="numClicks">#Clicks:</label>
+	        <input type="text" id="numClicks" name="num_clicks" />
+		    </div>
 
+		    <div class="adminButton">
+					<button type="button" class="adminButtons" id="cancelButt">Cancel</button>
+		      <button type="submit" class="adminButtons" id="saveButt">Save</button>
+		    </div>
+			</form>
 		</div>
 
     <script src="app.js"></script>
